@@ -8,6 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+
+import ru.ssau.mobile.ssau_mobile_task3.model.Category;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +23,30 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //TEST
+
+        Category c = new Category();
+        c.setId(0);
+        c.setName("Работа");
+        Category c1 = new Category();
+        c1.setId(1);
+        c1.setName("Отдых");
+        /*Photo p = new Photo();
+        p.setId(0);
+        ArrayList<Photo> pl = new ArrayList<Photo>();
+        pl.add(p);
+        Record r = new Record();
+        r.setId(0); r.setCategory(c); r.setPhotos(pl); r.setStart(123); r.setEnd(321); r.setMinutes(5); r.setSummary("Lol");*/
+
+        ArrayList<Category> cl = new ArrayList<>();
+        cl.add(c);
+        cl.add(c1);
+
+        MainListAdapter adapter = new MainListAdapter(this, R.layout.main_list_item, cl);
+        ListView listView = (ListView) findViewById(R.id.main_list);
+        listView.setAdapter(adapter);
+
+        //END
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
