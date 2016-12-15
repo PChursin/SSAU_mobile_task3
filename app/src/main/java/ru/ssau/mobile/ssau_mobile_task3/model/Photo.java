@@ -13,6 +13,13 @@ public class Photo {
     private long id;
     private byte[] image;
 
+    public Photo(){};
+
+    public Photo(long id, byte[] image){
+        this.id = id;
+        this.image = image;
+    };
+
     public long getId() {
         return id;
     }

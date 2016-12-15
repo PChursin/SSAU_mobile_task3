@@ -12,6 +12,19 @@ public class Record {
     private long start, end, minutes, id;
     private String summary;
 
+    public Record() {};
+
+    public Record(long id, Category category, long start, long end, long minutes,
+                  String summary, ArrayList<Photo> photos) {
+        this.category = category;
+        this.photos = photos;
+        this.start = start;
+        this.end = end;
+        this.minutes = minutes;
+        this.id = id;
+        this.summary = summary;
+    }
+
     public long getId() {
         return id;
     }
