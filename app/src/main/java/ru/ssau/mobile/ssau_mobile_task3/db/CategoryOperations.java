@@ -17,8 +17,15 @@ public class CategoryOperations {
     private DBHelper dbHelper;
     private String[] columns = {DBHelper.CATEGORY_ID, DBHelper.CATEGORY_NAME};
     private SQLiteDatabase db;
+    private static CategoryOperations instance;
 
-    public CategoryOperations(Context context) {
+    public static CategoryOperations getInstance(Context context) {
+        if (instance == null)
+            instance = new CategoryOperations(context);
+        return instance;
+    }
+
+    private CategoryOperations(Context context) {
         dbHelper = DBHelper.getInstance(context);
         open();
     }
@@ -42,6 +49,7 @@ public class CategoryOperations {
     public Category getCategory(long id) {
         Cursor cursor = db.query(DBHelper.CATEGORY_TABLE, columns, DBHelper.CATEGORY_ID + "=" + id,
                 null, null, null, null);
+        cursor.moveToFirst();
         Category cat = parseCategory(cursor);
         cursor.close();
         return cat;
