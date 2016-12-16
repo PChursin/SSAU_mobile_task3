@@ -6,4 +6,6 @@
     <string name="activity_study">Учёба</string>
     <string name="activity_rest">Отдых</string>
     <string name="activity_sleep">Сон</string>
+    <string name="lasts">Lasts for:</string>
+    <string name="action_recent">Recent activities</string>
 </resources>

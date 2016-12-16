@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,10 +78,12 @@ public class RecordOperations {
         return photoList;
     }
 
+    @Nullable
     public Record getUnfinishedRecord() {
         Cursor cursor = db.query(DBHelper.RECORD_TABLE, columns, DBHelper.RECORD_END+"=0", null, null, null, null);
-        cursor.moveToFirst();
-        Record out = parseRecord(cursor);
+        Record out = null;
+        if(cursor.moveToFirst())
+            out = parseRecord(cursor);
         cursor.close();
         return out;
     }
@@ -108,6 +109,25 @@ public class RecordOperations {
         return out;
     }
 
+    public void updateRecord(Record oldRec, Record newRec) {
+        deleteRecord(oldRec);
+        long catId = newRec.getCategory().getId();
+        String photos = null;
+        ArrayList<Photo> photoList = newRec.getPhotos();
+        if (photoList != null) {
+            StringBuilder sb = new StringBuilder();
+            for (Photo p : photoList) {
+                sb.append(p.getId()).append(",");
+            }
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+                photos = sb.toString();
+            }
+        }
+        addRecord(catId, newRec.getStart(), newRec.getEnd(), newRec.getMinutes(), newRec.getSummary(),
+                photos);
+    }
+
     public ArrayList<Record> getAllRecords() {
         Cursor cursor = db.query(DBHelper.RECORD_TABLE, columns, null, null, null, null, null);
         return getAllRecords(cursor);
@@ -124,6 +144,11 @@ public class RecordOperations {
         }
         cursor.close();
         return out;
+    }
+
+    public void deleteRecord(Record record) {
+        long id = record.getId();
+        db.delete(DBHelper.RECORD_TABLE, DBHelper.RECORD_ID+ "=" + id, null);
     }
 
     private Record parseRecord(Cursor cursor) {

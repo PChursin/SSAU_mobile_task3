@@ -3,8 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ru.ssau.mobile.ssau_mobile_task3.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_stats"
         android:orderInCategory="100"
         android:title="@string/action_statistics"
+        android:src="@drawable/ic_stats"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_recent"
+        android:orderInCategory="100"
+        android:title="@string/action_recent"
+        android:src="@drawable/ic_list"
         app:showAsAction="never" />
 </menu>

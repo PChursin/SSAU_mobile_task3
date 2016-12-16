@@ -13,7 +13,7 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Tracker.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static final String CATEGORY_TABLE = "Category";
     public static final String CATEGORY_ID = "_id";
@@ -41,9 +41,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_RECORD = String.format(
             "create table %s(%s integer primary key autoincrement, " +
-                    "%s integer, " +
+                    "%s integer not null, " +
                     "%s integer not null, %s integer not null, %s integer " +
-                    "not null, %s text not null, %s text);", RECORD_TABLE,
+                    "not null, %s text, %s text);", RECORD_TABLE,
             RECORD_ID, RECORD_CATEGORY, RECORD_START, RECORD_END, RECORD_MINUTES, RECORD_SUMMARY,
             RECORD_PHOTO);
 

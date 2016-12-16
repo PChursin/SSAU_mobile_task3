@@ -25,6 +25,16 @@ public class Record {
         this.summary = summary;
     }
 
+    public void copyFrom(Record rec) {
+        this.category = rec.category;
+        this.photos = rec.photos;
+        this.start = rec.start;
+        this.end = rec.end;
+        this.minutes = rec.minutes;
+        this.id = rec.id;
+        this.summary = rec.summary;
+    }
+
     public long getId() {
         return id;
     }

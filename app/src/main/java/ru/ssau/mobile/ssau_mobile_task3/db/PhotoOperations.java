@@ -53,6 +53,11 @@ public class PhotoOperations {
         return photo;
     }
 
+    public void deletePhoto(Photo photo) {
+        long id = photo.getId();
+        db.delete(DBHelper.PHOTO_TABLE, DBHelper.PHOTO_ID + "=" + id, null);
+    }
+
     private Photo parsePhoto(Cursor cursor) {
         Photo photo = new Photo();
         photo.setId(cursor.getLong(0));
