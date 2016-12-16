@@ -8,4 +8,5 @@
     <string name="activity_sleep">Сон</string>
     <string name="lasts">Lasts for:</string>
     <string name="action_recent">Recent activities</string>
+    <string name="recent_activity">Recent activities</string>
 </resources>

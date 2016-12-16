@@ -129,7 +129,8 @@ public class RecordOperations {
     }
 
     public ArrayList<Record> getAllRecords() {
-        Cursor cursor = db.query(DBHelper.RECORD_TABLE, columns, null, null, null, null, null);
+        Cursor cursor = db.query(DBHelper.RECORD_TABLE, columns, null, null, null, null,
+                DBHelper.RECORD_START+" DESC");
         return getAllRecords(cursor);
     }
 
