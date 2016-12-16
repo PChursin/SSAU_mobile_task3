@@ -1,9 +1,11 @@
 package ru.ssau.mobile.ssau_mobile_task3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -29,12 +31,12 @@ public class RecentActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RecentActivity.this, NewMeetingActivity.class);
+                Intent intent = new Intent(RecentActivity.this, DetailsActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 }

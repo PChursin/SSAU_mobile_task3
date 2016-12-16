@@ -1,10 +1,12 @@
 package ru.ssau.mobile.ssau_mobile_task3.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Pavel on 14.12.2016.
  */
 
-public class Category {
+public class Category implements Serializable {
     private String name;
     private long id;
 

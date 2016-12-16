@@ -22,6 +22,10 @@
             android:name=".RecentActivity"
             android:label="@string/recent_activity">
         </activity>
+        <activity
+            android:name=".DetailsActivity"
+            android:label="@string/details_activity">
+        </activity>
     </application>
 
 </manifest>

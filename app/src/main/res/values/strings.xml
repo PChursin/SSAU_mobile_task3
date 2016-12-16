@@ -9,4 +9,5 @@
     <string name="lasts">Lasts for:</string>
     <string name="action_recent">Recent activities</string>
     <string name="recent_activity">Recent activities</string>
+    <string name="details_activity">View and edit</string>
 </resources>

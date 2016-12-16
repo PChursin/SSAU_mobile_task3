@@ -1,6 +1,7 @@
 package ru.ssau.mobile.ssau_mobile_task3;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,6 +84,14 @@ public class RecentListAdapter extends ArrayAdapter<Record> {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(rec.getStart());
         viewHolder.dateTimeField.setText(sdf.format(cal.getTime()));
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra("record", rec);
+                context.startActivity(intent);
+            }
+        });
         return view;
     }
 

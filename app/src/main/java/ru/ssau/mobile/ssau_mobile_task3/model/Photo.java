@@ -4,12 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 /**
  * Created by Pavel on 14.12.2016.
  */
 
-public class Photo {
+public class Photo implements Serializable{
     private long id;
     private byte[] image;
 

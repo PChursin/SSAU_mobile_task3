@@ -1,12 +1,13 @@
 package ru.ssau.mobile.ssau_mobile_task3.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Pavel on 14.12.2016.
  */
 
-public class Record {
+public class Record implements Serializable {
     private Category category;
     private ArrayList<Photo> photos;
     private long start, end, minutes, id;
