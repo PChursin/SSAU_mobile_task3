@@ -3,6 +3,8 @@ package ru.ssau.mobile.ssau_mobile_task3.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import ru.ssau.mobile.ssau_mobile_task3.db.RecordOperations;
+
 /**
  * Created by Pavel on 14.12.2016.
  */
@@ -28,12 +30,27 @@ public class Record implements Serializable {
 
     public void copyFrom(Record rec) {
         this.category = rec.category;
-        this.photos = rec.photos;
+        if (rec.photos != null)
+            this.photos = (ArrayList<Photo>) rec.photos.clone();
+        else
+            this.photos = null;
         this.start = rec.start;
         this.end = rec.end;
         this.minutes = rec.minutes;
         this.id = rec.id;
-        this.summary = rec.summary;
+        this.summary = (rec.summary == null ? null : rec.summary.toString());
+    }
+
+    public RecordSendable toSendable() {
+        RecordSendable sendable = new RecordSendable();
+        sendable.setId(id);
+        sendable.setCategory(category);
+        sendable.setStart(start);
+        sendable.setEnd(end);
+        sendable.setMinutes(minutes);
+        sendable.setSummary(summary);
+        sendable.setPhotos(RecordOperations.getPhotoString(this));
+        return sendable;
     }
 
     public long getId() {

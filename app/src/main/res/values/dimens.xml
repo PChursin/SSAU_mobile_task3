@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="edit_labels_width">50dp</dimen>
+    <dimen name="cross_margin">8dp</dimen>
+    <dimen name="photo_size">150dp</dimen>
 </resources>

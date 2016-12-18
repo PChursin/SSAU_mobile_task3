@@ -55,6 +55,15 @@ public class CategoryOperations {
         return cat;
     }
 
+    public Category getCategory(String name) {
+        Cursor cursor = db.query(DBHelper.CATEGORY_TABLE, columns, DBHelper.CATEGORY_NAME + "='" + name+"'",
+                null, null, null, null);
+        cursor.moveToFirst();
+        Category cat = parseCategory(cursor);
+        cursor.close();
+        return cat;
+    }
+
     public ArrayList<Category> getAllCategories() {
         ArrayList<Category> out = new ArrayList<>();
         Cursor cursor = db.query(DBHelper.CATEGORY_TABLE, columns, null, null,

@@ -6,16 +6,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import ru.ssau.mobile.ssau_mobile_task3.adapters.MainListAdapter;
 import ru.ssau.mobile.ssau_mobile_task3.db.CategoryOperations;
+import ru.ssau.mobile.ssau_mobile_task3.db.DBHelper;
 import ru.ssau.mobile.ssau_mobile_task3.model.Category;
 
 public class MainActivity extends AppCompatActivity {
 
     CategoryOperations catOps;
+    DBHelper dbhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,14 @@ public class MainActivity extends AppCompatActivity {
         //TEST
 
         catOps = CategoryOperations.getInstance(this);
-
+        dbhelper = DBHelper.getInstance(this);
+        Button clear = (Button) findViewById(R.id.clear_photo_button);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dbhelper.clearPhotos();
+            }
+        });
 
         /*Category c = new Category();
         c.setId(0);

@@ -1,4 +1,4 @@
-package ru.ssau.mobile.ssau_mobile_task3;
+package ru.ssau.mobile.ssau_mobile_task3.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ru.ssau.mobile.ssau_mobile_task3.R;
 import ru.ssau.mobile.ssau_mobile_task3.db.RecordOperations;
 import ru.ssau.mobile.ssau_mobile_task3.model.Category;
 import ru.ssau.mobile.ssau_mobile_task3.model.Record;
@@ -59,7 +60,6 @@ public class MainListAdapter extends ArrayAdapter<Category> {
     @Override
     public View getView(int i, View view, @NonNull ViewGroup viewGroup) {
         final Category c = data.get(i);
-        Log.d(TAG, "getView: "+c.getName());
         ViewHolder viewHolder;
         if (view == null) {
             view = LayoutInflater.from(this.getContext())

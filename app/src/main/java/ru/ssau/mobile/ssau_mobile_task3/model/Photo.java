@@ -1,10 +1,13 @@
 package ru.ssau.mobile.ssau_mobile_task3.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
+
+import ru.ssau.mobile.ssau_mobile_task3.R;
 
 /**
  * Created by Pavel on 14.12.2016.
@@ -45,5 +48,15 @@ public class Photo implements Serializable{
 
     public static Bitmap getImage(byte[] image) {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+    public static Bitmap getSmallImage(byte[] image, Context context) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inJustDecodeBounds = true;
+        options.outHeight = (int) context.getResources().getDimension(R.dimen.photo_size);
+        options.outWidth = (int) context.getResources().getDimension(R.dimen.photo_size);
+        options.inSampleSize = 16;
+        options.inScaled = true;
+        return BitmapFactory.decodeByteArray(image, 0, image.length, options);
     }
 }

@@ -65,7 +65,7 @@ public class RecordOperations {
     }
 
     @Nullable
-    private ArrayList<Photo> getAttachedPhotos(String photos) {
+    public ArrayList<Photo> getAttachedPhotos(String photos) {
         ArrayList<Photo> photoList = null;
         if (photos != null && photos.length() > 0) {
             photoList = new ArrayList<>();
@@ -110,8 +110,24 @@ public class RecordOperations {
     }
 
     public void updateRecord(Record oldRec, Record newRec) {
-        deleteRecord(oldRec);
+        //deleteRecord(oldRec);
         long catId = newRec.getCategory().getId();
+        String photos = getPhotoString(newRec);
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.RECORD_CATEGORY, catId);
+        values.put(DBHelper.RECORD_START, newRec.getStart());
+        values.put(DBHelper.RECORD_END, newRec.getEnd());
+        values.put(DBHelper.RECORD_MINUTES, newRec.getMinutes());
+        values.put(DBHelper.RECORD_SUMMARY, newRec.getSummary());
+        values.put(DBHelper.RECORD_PHOTO, photos);
+        db.update(DBHelper.RECORD_TABLE, values, DBHelper.CATEGORY_ID+"="+newRec.getId(), null);
+
+//        addRecord(catId, newRec.getStart(), newRec.getEnd(), newRec.getMinutes(), newRec.getSummary(),
+//                photos);
+    }
+
+    @Nullable
+    public static String getPhotoString(Record newRec) {
         String photos = null;
         ArrayList<Photo> photoList = newRec.getPhotos();
         if (photoList != null) {
@@ -124,8 +140,7 @@ public class RecordOperations {
                 photos = sb.toString();
             }
         }
-        addRecord(catId, newRec.getStart(), newRec.getEnd(), newRec.getMinutes(), newRec.getSummary(),
-                photos);
+        return photos;
     }
 
     public ArrayList<Record> getAllRecords() {
@@ -149,6 +164,11 @@ public class RecordOperations {
 
     public void deleteRecord(Record record) {
         long id = record.getId();
+        ArrayList<Photo> photos = record.getPhotos();
+        //TODO error here
+        if (photos!=null)
+            for (Photo p : photos)
+                photoOperations.deletePhoto(p);
         db.delete(DBHelper.RECORD_TABLE, DBHelper.RECORD_ID+ "=" + id, null);
     }
 
@@ -159,7 +179,8 @@ public class RecordOperations {
         record.setStart(cursor.getLong(2));
         record.setEnd(cursor.getLong(3));
         record.setMinutes(cursor.getLong(4));
-        String photos = cursor.getString(5);
+        record.setSummary(cursor.getString(5));
+        String photos = cursor.getString(6);
         record.setPhotos(getAttachedPhotos(photos));
         return record;
     }

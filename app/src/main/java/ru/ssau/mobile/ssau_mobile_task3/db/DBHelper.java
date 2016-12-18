@@ -13,7 +13,7 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "Tracker.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 1;
 
     public static final String CATEGORY_TABLE = "Category";
     public static final String CATEGORY_ID = "_id";
@@ -89,5 +89,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists " + CATEGORY_TABLE);
         db.execSQL("drop table if exists " + PHOTO_TABLE);
         onCreate(db);
+    }
+
+    public void clearPhotos() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("drop table if exists " + PHOTO_TABLE);
+        db.execSQL(CREATE_PHOTO);
     }
 }
