@@ -2,6 +2,7 @@ package ru.ssau.mobile.ssau_mobile_task3;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +54,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
     static ArrayList<String> recentActivities = new ArrayList<>();
     static ArrayList<String> totalTime = new ArrayList<>();
+    static HashMap<String, Long> totalTimeMap = new HashMap<>();
     ArrayList<String> categories = new ArrayList<>();
 
     public static final String TAG = "StatisticsActivity";
@@ -63,13 +72,18 @@ public class StatisticsActivity extends AppCompatActivity {
         fromDateLabel = (TextView) findViewById(R.id.stat_from_date);
         toDateLabel = (TextView) findViewById(R.id.stat_to_date);
 
-        dateStart = Calendar.getInstance();
-        dateEnd = Calendar.getInstance();
+        if (savedInstanceState != null) {
+            dateStart = (Calendar) savedInstanceState.get("dateStart");
+            dateEnd = (Calendar) savedInstanceState.get("dateEnd");
+        } else {
+            dateStart = Calendar.getInstance();
+            dateEnd = Calendar.getInstance();
+        }
 
         dateOnly = new SimpleDateFormat("EE, dd MMM yyyy");
         fromDateLabel.setText(dateOnly.format(dateStart.getTime()));
         toDateLabel.setText(dateOnly.format(dateEnd.getTime()));
-
+        updateStats();
         setUpPickers();
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -135,9 +149,11 @@ public class StatisticsActivity extends AppCompatActivity {
                 ArrayList<String> l = lists[i];
                 l.clear();
                 HashMap<String, Long> group;
-                if (i == 0)
+                if (i == 0) {
                     group = recordOperations.
-                        getGroupedRecordsTime(dateStart.getTimeInMillis(), dateEnd.getTimeInMillis());
+                            getGroupedRecordsTime(dateStart.getTimeInMillis(), dateEnd.getTimeInMillis());
+                    totalTimeMap = group;
+                }
                 else
                     group = recordOperations.
                             getGroupedRecordsCount(dateStart.getTimeInMillis(), dateEnd.getTimeInMillis());
@@ -164,6 +180,13 @@ public class StatisticsActivity extends AppCompatActivity {
             }
             mSectionsPagerAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("dateStart", dateStart);
+        outState.putSerializable("dateEnd", dateEnd);
+        super.onSaveInstanceState(outState);
     }
 
     public static class PlaceholderFragment extends Fragment {
@@ -221,6 +244,68 @@ public class StatisticsActivity extends AppCompatActivity {
             return rootView;
         }
     }
+
+    public static class PlaceholderPieChartFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+        Context context;
+        ArrayAdapter<String> adapter;
+
+        public PlaceholderPieChartFragment() {
+        }
+
+        public void setContext(Context context) {
+            this.context = context;
+        }
+
+        public static PlaceholderPieChartFragment newInstance(int sectionNumber, Context context) {
+            PlaceholderPieChartFragment fragment = new PlaceholderPieChartFragment();
+            fragment.setContext(context);
+            return fragment;
+        }
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.graph_fragment, container, false);
+            boolean empty = totalTimeMap.isEmpty();
+            if (!empty) {
+                PieChart chart = (PieChart) rootView.findViewById(R.id.chart);
+                ArrayList<String> cats = new ArrayList<>();
+                ArrayList<Long> vals = new ArrayList<>();
+                for (Map.Entry<String, Long> entry : totalTimeMap.entrySet()) {
+                    cats.add(entry.getKey());
+                    vals.add(entry.getValue());
+                }
+
+                ArrayList<PieEntry> entries = new ArrayList<>();
+                for (int i = 0; i < cats.size(); i++) {
+                    entries.add(new PieEntry(vals.get(i), cats.get(i)));
+                }
+                PieDataSet dataSet = new PieDataSet(entries, "Total time");
+                dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                chart.setData(new PieData(dataSet));
+                chart.setEntryLabelColor(Color.BLACK);
+                Description d = new Description();
+                d.setText("");
+                chart.setDescription(d);
+                chart.invalidate();
+            } else {
+                TextView test = (TextView) rootView.findViewById(R.id.test_text);
+                test.setVisibility(View.VISIBLE);
+                test.setText("No activities match selected range");
+            }
+            return rootView;
+        }
+    }
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
  * one of the sections/tabs/pages.
@@ -228,7 +313,7 @@ public class StatisticsActivity extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         Context context;
-        PlaceholderFragment currentFragment;
+        Fragment currentFragment;
 
 
 
@@ -240,8 +325,11 @@ public class StatisticsActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            currentFragment = PlaceholderFragment.newInstance(position + 1, context);
+            // Return a PlaceholderPieChartFragment (defined as a static inner class below).
+            if (position < 2)
+                currentFragment = PlaceholderFragment.newInstance(position + 1, context);
+            else
+                currentFragment = PlaceholderPieChartFragment.newInstance(position + 1, context);
             return currentFragment;
         }
 

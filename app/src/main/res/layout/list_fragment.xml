@@ -10,11 +10,11 @@
         android:visibility="gone"
         android:text="test"
         android:id="@+id/test_text"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/stat_list">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:id="@+id/stat_list">
 
-    </ListView>
-
+        </ListView>
 </LinearLayout>
