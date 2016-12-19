@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:fitsSystemWindows="true"
+    tools:context="ru.ssau.mobile.ssau_mobile_task3.StatisticsActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dateline_height">
+
+        <TextView
+            android:text="From"
+            android:layout_width="@dimen/edit_labels_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/stat_from_date"
+            android:layout_weight="1"
+            android:textStyle="normal|bold"
+            android:clickable="true"/>
+
+
+        <TextView
+            android:text="To"
+            android:layout_width="@dimen/edit_labels_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/stat_to_date"
+            android:layout_weight="1"
+            android:textStyle="normal|bold"
+            android:clickable="true"/>
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="509dp"
+        android:layout_marginTop="@dimen/dateline_height"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <android.support.v4.view.PagerTabStrip
+        android:id="@+id/pager_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" />
+    </android.support.v4.view.ViewPager>
+
+</android.support.design.widget.CoordinatorLayout>

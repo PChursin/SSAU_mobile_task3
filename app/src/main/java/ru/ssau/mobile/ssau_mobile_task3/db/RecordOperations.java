@@ -94,10 +94,25 @@ public class RecordOperations {
         return getAllRecords(cursor);
     }
 
-    public HashMap<String, Long> getGroupedRecordsRange(long from, long to) {
+    public HashMap<String, Long> getGroupedRecordsTime(long from, long to) {
         String q = DBHelper.RECORD_START+">="+from+" and "+DBHelper.RECORD_START+"<="+to;
         Cursor cursor = db.query(DBHelper.RECORD_TABLE, new String[]{DBHelper.RECORD_CATEGORY,
                 "SUM("+DBHelper.RECORD_MINUTES+")"}, q, null, DBHelper.RECORD_CATEGORY, null, null);
+        HashMap<String, Long> out = new HashMap<>();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Category cat = categoryOperations.getCategory(cursor.getLong(0));
+            out.put(cat.getName(), cursor.getLong(1));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return out;
+    }
+
+    public HashMap<String, Long> getGroupedRecordsCount(long from, long to) {
+        String q = DBHelper.RECORD_START+">="+from+" and "+DBHelper.RECORD_START+"<="+to;
+        Cursor cursor = db.query(DBHelper.RECORD_TABLE, new String[]{DBHelper.RECORD_CATEGORY,
+                "COUNT(*)"}, q, null, DBHelper.RECORD_CATEGORY, null, null);
         HashMap<String, Long> out = new HashMap<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

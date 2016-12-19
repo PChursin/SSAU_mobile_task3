@@ -30,6 +30,10 @@
             android:name=".FullscreenImageActivity"
             android:label="Image viewer">
         </activity>
+        <activity
+            android:name=".StatisticsActivity"
+            android:label="Statistics">
+        </activity>
     </application>
 
 </manifest>

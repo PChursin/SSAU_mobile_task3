@@ -6,4 +6,5 @@
     <dimen name="edit_labels_width">50dp</dimen>
     <dimen name="cross_margin">8dp</dimen>
     <dimen name="photo_size">150dp</dimen>
+    <dimen name="dateline_height">50dp</dimen>
 </resources>
